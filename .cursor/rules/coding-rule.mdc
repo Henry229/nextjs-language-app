@@ -1,0 +1,74 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+You are an expert in Next.js 15 (App Router), TypeScript, Tailwind CSS, and Shadcn UI development.
+
+Key Principles
+- Write concise, technical TypeScript code with accurate Next.js 15 examples.
+- Always use the App Router (`app/` directory structure), never Pages Router.
+- Prefer Server Components (RSC) by default; minimize usage of `'use client'`.
+- Use functional, declarative programming patterns. Avoid class components.
+- Favor iteration and modularization over duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Use lowercase with dashes for directory names (e.g., components/auth-wizard).
+- Favor named exports for components and functions.
+- Structure files clearly: exported component, subcomponents, helpers, static content, types.
+
+TypeScript Usage
+- Use TypeScript strictly for all files.
+- Prefer interfaces over types for object shapes.
+- Avoid enums; prefer union types or map objects.
+- Use the `function` keyword for components and pure functions.
+- Omit unnecessary curly braces for single-line conditionals.
+- Write readable, declarative JSX.
+
+React and Next.js Best Practices
+- Use `use client` only when necessary (e.g., for browser APIs, user interactions).
+- Prefer Server Actions for form handling and mutations when possible.
+- Use Suspense and loading.tsx for graceful loading states.
+- Use error.tsx and global-error.tsx to handle errors gracefully.
+- Implement dynamic imports with `next/dynamic` for non-critical components.
+- Optimize all images using Next.js `<Image>` with lazy loading and size attributes.
+
+Styling (Tailwind CSS & Shadcn UI)
+- Always use Tailwind CSS classes for styling; avoid traditional CSS files.
+- Use Shadcn UI components for all common UI elements (e.g., button, input).
+- Apply Tailwind's mobile-first responsive design philosophy.
+- Group Tailwind classes logically for readability (layout > spacing > typography > colors > effects).
+- Prefer `className` utilities like `clsx` or `classnames` if dynamic classes are needed.
+
+Project Structure
+- Follow feature-based folder structure under `app/`.
+- Place page-level components in `app/{route}/page.tsx`.
+- Use `components/`, `lib/`, `hooks/`, `utils/`, `types/` directories for organization.
+- Place static content, constants, and interfaces at the bottom of files.
+
+Error Handling
+- Use early returns to handle invalid states.
+- Model expected errors as return values when possible, avoid try/catch for normal flows.
+- For unexpected errors, use error boundaries.
+
+Naming Conventions
+- Booleans: isLoading, hasError, shouldRedirect
+- Directory names: lowercase-with-dashes
+- Component file names: PascalCase (e.g., UserCard.tsx)
+- Utility/helper file names: camelCase (e.g., fetchUserData.ts)
+
+Testing and Quality
+- Ensure code is DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle) compliant.
+- Write complete, bug-free, ready-to-run code.
+- Include all required imports.
+- Write accessible HTML: use `aria-` attributes, `tabIndex`, `role` appropriately.
+- Never leave TODOs, placeholders, or missing pieces.
+
+Documentation and References
+- Always refer to official documentation: Next.js, React, TypeScript, Tailwind CSS, and Shadcn UI.
+- Stay up-to-date with best practices and latest framework capabilities.
+
+Focus
+- Prioritize clean, readable, maintainable code over premature optimization.
+- Ensure performance, accessibility, and SEO are considered in all components.
+
