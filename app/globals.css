@@ -1,8 +1,23 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 7%;
+  --foreground: 0 0% 95%;
+  --card: 0 0% 11%;
+  --card-foreground: 0 0% 98%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 95%;
+  --accent: 0 0% 20%;
+  --accent-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 70%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 221 83% 53%;
 }
 
 @theme inline {
@@ -20,7 +35,47 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   font-family: Arial, Helvetica, sans-serif;
+}
+/* 링크 요소의 대비를 개선하는 스타일 */
+a {
+  color: hsl(var(--primary-foreground));
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* 카드 요소의 배경과 텍스트 대비 개선 */
+.bg-white {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
+/* 버튼 요소의 대비 개선 */
+.bg-blue-500 {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-blue-600 {
+  background-color: hsl(221 90% 45%);
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-blue-50 {
+  background-color: hsl(221 30% 20%);
+  color: hsl(var(--foreground));
+}
+
+/* 텍스트 색상 대비 개선 */
+.text-gray-600 {
+  color: hsl(0 0% 80%);
+}
+
+.text-gray-700 {
+  color: hsl(0 0% 85%);
 }
