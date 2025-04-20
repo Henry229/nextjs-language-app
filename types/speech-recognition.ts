@@ -5,7 +5,10 @@ export interface SpeechRecognitionEvent extends Event {
         transcript: string;
         confidence: number;
       };
+      isFinal: boolean;
+      length: number;
     };
+    length: number;
   };
   resultIndex: number;
 }
@@ -28,14 +31,15 @@ export interface SpeechRecognition extends EventTarget {
   abort: () => void;
 }
 
+// SpeechRecognition 생성자 타입
+export interface SpeechRecognitionConstructor {
+  new (): SpeechRecognition;
+}
+
 // 브라우저에 global SpeechRecognition 타입 선언
 declare global {
   interface Window {
-    SpeechRecognition?: {
-      new (): SpeechRecognition;
-    };
-    webkitSpeechRecognition?: {
-      new (): SpeechRecognition;
-    };
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
   }
 }
