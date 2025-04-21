@@ -74,13 +74,26 @@ export function isCloseMatch(
 ): boolean {
   if (!userInput || !correctAnswer) return false;
 
-  const normalizedInput = userInput.trim().toLowerCase();
-  const normalizedCorrect = correctAnswer.trim().toLowerCase();
+  // 정규화 함수: 구두점 제거, 공백 정리, 소문자 변환
+  const normalize = (text: string): string => {
+    return (
+      text
+        .trim()
+        .toLowerCase()
+        // 마침표, 쉼표, 느낌표, 물음표, 세미콜론, 콜론 등 구두점 제거
+        .replace(/[.,!?;:"""''()]/g, '')
+        // 연속된 공백을 하나로 줄임
+        .replace(/\s+/g, ' ')
+    );
+  };
 
-  // 완전히 동일하면 바로 true
+  const normalizedInput = normalize(userInput);
+  const normalizedCorrect = normalize(correctAnswer);
+
+  // 정규화 후 완전히 동일하면 바로 true
   if (normalizedInput === normalizedCorrect) return true;
 
-  // 유사도 계산
+  // 유사도 계산 (정규화된 텍스트 기준)
   const similarity = calculateSimilarity(normalizedInput, normalizedCorrect);
   return similarity >= threshold;
 }

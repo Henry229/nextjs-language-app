@@ -25,7 +25,7 @@ export async function textToSpeech({
   text,
   lang = 'en-US',
   voice = 'en-US-Standard-A',
-  speed = 1.0,
+  speed = -0.2,
 }: TTSRequestOptions): Promise<TTSResponse> {
   if (!text) {
     return { error: 'Text is required' };

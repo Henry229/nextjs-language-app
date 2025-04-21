@@ -1,6 +1,26 @@
 @import 'tailwindcss';
 
 :root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 7%;
+  --card: 0 0% 98%;
+  --card-foreground: 0 0% 7%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 0 0% 7%;
+  --accent: 210 20% 96%;
+  --accent-foreground: 0 0% 7%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89%;
+  --input: 0 0% 89%;
+  --ring: 221 83% 53%;
+}
+
+.dark {
   --background: 0 0% 7%;
   --foreground: 0 0% 95%;
   --card: 0 0% 11%;
@@ -27,13 +47,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -41,7 +54,7 @@ body {
 }
 /* 링크 요소의 대비를 개선하는 스타일 */
 a {
-  color: hsl(var(--primary-foreground));
+  color: hsl(var(--primary));
   transition: opacity 0.2s ease;
 }
 
@@ -73,9 +86,17 @@ a:hover {
 
 /* 텍스트 색상 대비 개선 */
 .text-gray-600 {
+  color: hsl(0 0% 45%);
+}
+
+.dark .text-gray-600 {
   color: hsl(0 0% 80%);
 }
 
 .text-gray-700 {
+  color: hsl(0 0% 35%);
+}
+
+.dark .text-gray-700 {
   color: hsl(0 0% 85%);
 }

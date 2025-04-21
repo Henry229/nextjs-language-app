@@ -106,7 +106,7 @@ export function Stage1Exercise({
         </p>
       </div>
 
-      <div className='bg-white rounded-xl shadow-md p-6 mb-6'>
+      <div className='bg-[hsl(var(--card))] rounded-xl shadow-md p-6 mb-6 border border-[hsl(var(--border))]'>
         <div className='mb-6'>
           <p className='font-medium mb-2'>한국어 문장:</p>
           <p className='text-lg'>{currentCard.native}</p>
@@ -128,8 +128,8 @@ export function Stage1Exercise({
           <div
             className={`p-4 rounded-md mb-4 ${
               feedback.isCorrect
-                ? 'bg-green-100 text-green-800'
-                : 'bg-red-100 text-red-800'
+                ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100'
+                : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100'
             }`}
           >
             {feedback.message}
@@ -137,7 +137,7 @@ export function Stage1Exercise({
         )}
 
         {showAnswer && (
-          <div className='p-4 bg-blue-100 text-blue-800 rounded-md mb-4'>
+          <div className='p-4 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-md mb-4'>
             <p className='font-medium'>정답:</p>
             <p>{currentCard.target}</p>
           </div>
