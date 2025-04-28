@@ -49,13 +49,32 @@ export function Stage1Exercise({
   const isLastCard = currentIndex === totalCards - 1;
 
   const handleCheck = () => {
-    const isCorrect = checkSimilarity(userInput, currentCard.target);
+    const result = checkSimilarity(userInput, currentCard.target);
+    const { isCorrect, similarity, missingWords, extraWords } = result;
+
+    // 피드백 메시지 구성
+    let message = '';
+    if (isCorrect) {
+      message = '정답입니다!';
+    } else {
+      message = '틀렸습니다. ';
+      
+      // 유사도에 따른 피드백
+      if (similarity > 0.5) {
+        message += '가까워지고 있어요! ';
+      }
+      
+      // 누락된 단어가 있는 경우 피드백
+      if (missingWords.length > 0) {
+        message += `누락된 단어: ${missingWords.slice(0, 3).join(', ')}${missingWords.length > 3 ? '...' : ''} `;
+      }
+      
+      message += '다시 시도하거나 정답을 확인하세요.';
+    }
 
     setFeedback({
       isCorrect,
-      message: isCorrect
-        ? '정답입니다!'
-        : '틀렸습니다. 다시 시도하거나 정답을 확인하세요.',
+      message,
     });
 
     if (isCorrect) {

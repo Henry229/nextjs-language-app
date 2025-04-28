@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Card } from '@/types/card';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/supabase';
 import Stage2Flashcards from '@/components/learn/Stage2Flashcards';
 import Button from '@/components/ui/Button';
 
@@ -10,20 +12,63 @@ export default function Stage2Page() {
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const subcategoryId = searchParams.get('subcategoryId');
 
-  // 로컬 스토리지에서 저장된 카드 데이터 불러오기
+  // Supabase 또는 로컬 스토리지에서 카드 데이터 불러오기
   useEffect(() => {
     setIsLoading(true);
-    try {
-      const savedCards = localStorage.getItem('learningCards');
-      if (savedCards) {
-        setCards(JSON.parse(savedCards));
+    
+    const loadCards = async () => {
+      // subcategoryId가 있으면 Supabase에서 데이터 불러오기
+      if (subcategoryId) {
+        try {
+          const supabase = createClientComponentClient<Database>();
+          const { data, error } = await supabase
+            .from('flashcards')
+            .select('*')
+            .eq('subcategory_id', subcategoryId)
+            .order('created_at', { ascending: true });
+          
+          if (error) {
+            throw error;
+          }
+          
+          if (data && data.length > 0) {
+            // Supabase 데이터 형식을 Card 형식으로 변환
+            const formattedCards: Card[] = data.map((item) => ({
+              id: item.id,
+              native: item.native_text, // 모국어(한국어)
+              target: item.foreign_text, // 학습 언어(영어)
+              status: 'unseen',
+            }));
+            
+            setCards(formattedCards);
+            // 로컬 스토리지에도 저장하여 다음 단계에서 사용할 수 있도록 함
+            localStorage.setItem('learningCards', JSON.stringify(formattedCards));
+            setIsLoading(false);
+            return;
+          }
+        } catch (error) {
+          console.error('Supabase에서 카드 불러오기 실패:', error);
+        }
       }
-    } catch (error) {
-      console.error('로컬 스토리지에서 카드 불러오기 실패:', error);
-    }
-    setIsLoading(false);
-  }, []);
+      
+      // subcategoryId가 없거나 Supabase 로드 실패 시 로컬 스토리지에서 시도
+      try {
+        const savedCards = localStorage.getItem('learningCards');
+        if (savedCards) {
+          setCards(JSON.parse(savedCards));
+        }
+      } catch (error) {
+        console.error('로컬 스토리지에서 카드 불러오기 실패:', error);
+      }
+      
+      setIsLoading(false);
+    };
+    
+    loadCards();
+  }, [subcategoryId]);
 
   const handleFlashcardsComplete = () => {
     alert('플래시 카드 학습을 완료했습니다! 다음 단계로 이동합니다.');

@@ -22,15 +22,18 @@ export function parseCsv(csvText: string): CsvSentence[] {
     .split('\n')
     .filter((line) => line.trim() !== '')
     .map((line, index) => {
+      // 쪽마(,), 탭, 세미콜론(;) 구분자 해당 하는지 확인
+      const separator = line.includes(',') ? ',' : line.includes('\t') ? '\t' : line.includes(';') ? ';' : ',';
+      
       // 첫 번째 필드: 한국어(native), 두 번째 필드: 영어(target)
       const [translatedText, originalText] = line
-        .split(',')
+        .split(separator)
         .map((text) => text?.trim() || '');
 
       return {
         id: index + 1,
-        originalText, // 영어 문장 (target)
-        translatedText, // 한국어 문장 (native)
+        originalText: originalText || '', // 빈 문자열로 처리
+        translatedText: translatedText || '', // 빈 문자열로 처리
       };
     });
 }

@@ -155,11 +155,11 @@ export function CsvImport({ onCardsLoaded, className = '' }: CsvImportProps) {
     }
 
     // 카드를 localStorage에 저장하고 onCardsLoaded 콜백 호출
-    localStorage.setItem('cards', JSON.stringify(cards));
+    // 'learningCards' 키로 저장 (Stage1Page와 일치하도록)
+    localStorage.setItem('learningCards', JSON.stringify(cards));
     onCardsLoaded(cards);
 
-    // 학습 페이지로 이동
-    router.push('/learn');
+    // 현재 페이지에 머무름 (라우팅 제거)
   };
 
   return (

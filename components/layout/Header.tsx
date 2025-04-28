@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '../../lib/utils/cn';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import UserProfile from '@/components/auth/UserProfile';
 
 /**
  * 상단 헤더 컴포넌트
@@ -55,14 +56,20 @@ export default function Header() {
         {/* 데스크톱 네비게이션 */}
         <div className='hidden md:flex items-center gap-6'>
           <nav className='flex gap-6'>
-            <Link
+            {/* <Link
+              href='/folders'
+              className='text-sm font-medium transition-colors hover:text-primary'
+            >
+              폴더 관리
+            </Link> */}
+            {/* <Link
               href='/learn'
               className='text-sm font-medium transition-colors hover:text-primary'
             >
               학습하기
-            </Link>
+            </Link> */}
             <Link
-              href='/learn/stage1'
+              href='/folders'
               className='text-sm font-medium transition-colors hover:text-primary'
             >
               영작 연습
@@ -86,7 +93,10 @@ export default function Header() {
               말하기 연습
             </Link>
           </nav>
-          <ThemeToggle />
+          <div className='flex items-center gap-4'>
+            <ThemeToggle />
+            <UserProfile />
+          </div>
         </div>
       </div>
 
@@ -106,7 +116,7 @@ export default function Header() {
             학습하기
           </Link>
           <Link
-            href='/learn/stage1'
+            href='/folders'
             className='py-3 text-sm font-medium transition-colors hover:text-primary'
             onClick={() => setIsMenuOpen(false)}
           >
@@ -133,6 +143,9 @@ export default function Header() {
           >
             말하기 연습
           </Link>
+          <div className='pt-3 border-t mt-3'>
+            <UserProfile />
+          </div>
         </nav>
       </div>
     </header>

@@ -83,7 +83,7 @@ export function useSpeechRecognition({
     silenceTimerRef,
   ]);
 
-  // 초기화
+  // 초기화 - 인식 인스턴스 생성 및 이벤트 핸들러 설정
   useEffect(() => {
     if (!hasRecognitionSupport) return;
 
@@ -198,9 +198,18 @@ export function useSpeechRecognition({
 
     setRecognitionInstance(recognition);
 
+    // isListening 참조를 사용하지 않는 방식으로 클린업 함수 변경
     return () => {
-      if (recognition && isListening) {
-        recognition.stop();
+      if (recognition) {
+        // 이벤트 핸들러 제거
+        recognition.onresult = null;
+        recognition.onaudiostart = null;
+        recognition.onaudioend = null;
+        recognition.onerror = null;
+        recognition.onend = null;
+        
+        // 클린업 함수에서 stop() 호출을 제거
+        // 무한 루프 방지를 위해 현재 isListening을 참조하지 않음
       }
 
       if (silenceTimerRef[0]) {
@@ -208,16 +217,43 @@ export function useSpeechRecognition({
         silenceTimerRef[0] = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    continuous,
+    continuous, 
     interimResults,
     language,
     maxAlternatives,
     hasRecognitionSupport,
-    isListening,
     resetSilenceTimer,
     silenceTimerRef,
   ]);
+  
+  // 별도의 useEffect로 분리하여 isListening 상태가 변경될 때만 처리
+  useEffect(() => {
+    // 인식 인스턴스가 없으면 아무것도 하지 않음
+    if (!recognitionInstance) return;
+    
+    // isListening이 true지만 인식이 시작되지 않았을 경우 시작
+    if (isListening) {
+      try {
+        // 이미 시작된 상태에서 다시 start()를 호출하면 에러가 발생할 수 있으므로 조심해야 함
+        // 여기에서는 별도의 상태로 추적하지 않고 try-catch로 처리
+        recognitionInstance.start();
+      } catch (error) {
+        // 이미 실행 중인 경우의 에러는 무시 (DOMException: SpeechRecognition has already been started.)
+        console.log('Recognition already started or other error');
+      }
+    } else {
+      // isListening이 false일 때 인식 중지
+      try {
+        recognitionInstance.stop();
+      } catch (error) {
+        // 이미 중지된 경우의 에러는 무시
+        console.log('Recognition not running or other error');
+      }
+    }
+    
+  }, [isListening, recognitionInstance]);
 
   // 듣기 시작
   const startListening = useCallback(() => {
